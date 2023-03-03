@@ -16,6 +16,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_CURRENT_SOURCE_DIR}/bi
 
 project ("Rational")
 
+enable_testing()
+
 find_package(doctest REQUIRED)
 
 add_subdirectory (Rtnl_lib)

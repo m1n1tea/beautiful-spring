@@ -1,5 +1,7 @@
 ﻿
 
+#ifndef ARRAY_DYNAMIC_HPP_2023
+#define ARRAY_DYNAMIC_HPP_2023
 
 #include <cstdint>
 #include <stdexcept>
@@ -447,3 +449,4 @@ bool ArrayUni<type>::empty()
 
 typedef ArrayUni<double> ArrayD;
 
+#endif

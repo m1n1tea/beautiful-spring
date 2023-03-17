@@ -1,14 +1,14 @@
 ﻿
-
 #ifndef ARRAY_DYNAMIC_HPP_2023
 #define ARRAY_DYNAMIC_HPP_2023
 
 #include <cstdint>
 #include <stdexcept>
-
+#include<malloc.h>
 template<typename T>
 void swap(T& a, T& b) noexcept;
 void sizeCheck(const ptrdiff_t& size);
+
 
 
 
@@ -133,6 +133,7 @@ ArrayUni<type>::ArrayUni(ArrayUni<type>&& rhs, const ptrdiff_t& begin, const ptr
 template<typename type>
 ArrayUni<type>::~ArrayUni() noexcept {
 	delete[] arr_;
+	arr_ = nullptr;
 };
 
 
@@ -179,7 +180,7 @@ void swap(T& a, T& b) noexcept {
 
 void sizeCheck(const ptrdiff_t& size) {
 	if (size <= 0) {
-		throw std::invalid_argument("Not positive size or negative change in size of array");
+		throw std::invalid_argument("Array size or change in size is not positive");
 	}
 }
 

@@ -82,10 +82,12 @@ TEST_CASE("inc and dec") {
 }
 
 bool testIn(std::string s) {
+	s = s+' '+s;
 	std::istringstream istrm(s);
 	Rational x;
 	istrm >> x;
-	if (istrm.good())
+	istrm >> x;
+	if ((istrm.good() || istrm.eof()) && !(istrm.fail()) && !(istrm.bad()))
 		std::cout << "Read success: " << s << " -> " << x << std::endl;
 	else
 		std::cout << "Read error: " << s << " -> " << x << std::endl;

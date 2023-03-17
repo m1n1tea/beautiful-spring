@@ -164,7 +164,15 @@ std::ostream& Rational::writeOut(std::ostream& ostrm) const noexcept {
 std::istream& Rational::readIn(std::istream& istrm) noexcept {
 	int64_t num = 0, denum = 0;
 	char div = ' ';
-	istrm >> num >> std::noskipws >> div >> denum;
+	auto flags = istrm.flags();
+	bool skip = (flags & std::ios_base::skipws);
+	istrm >> num >> std::noskipws >> div >> denum >> std::skipws;
+	bool good = (flags & std::ios_base::goodbit);
+	bool bad = (flags & std::ios_base::badbit);
+	bool fail = (flags & std::ios_base::failbit);
+	bool eof = (flags & std::ios_base::eofbit);
+	if (!skip)
+		istrm >> std::skipws;
 	if ((istrm.good() || istrm.eof()) && !(istrm.fail()) && !(istrm.bad())) {
 		if (div == Rational::separator && denum>0) {
 			denum_ = denum;

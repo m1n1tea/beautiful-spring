@@ -8,6 +8,10 @@ set_property(TARGET arrayd_test PROPERTY CXX_STANDARD 20)
 target_link_libraries(arrayd_test arrayd)
 add_test(NAME arrayd_test COMMAND arrayd_test)
 
+add_executable(matrix_test matrix_test.cpp)
+set_property(TARGET matrix_test PROPERTY CXX_STANDARD 20)
+target_link_libraries(matrix_test matrix)
+add_test(NAME matrix_test COMMAND matrix_test)
 
 
 

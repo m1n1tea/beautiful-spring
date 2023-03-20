@@ -14,12 +14,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/bin.rel)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_CURRENT_SOURCE_DIR}/bin.relwithdbg)
 
 
-project ("Rational")
-
+project ("makurov_is_tree")
 enable_testing()
-
 find_package(doctest REQUIRED)
 
-add_subdirectory (Rtnl_lib)
-add_subdirectory (Rtnl_test)
+add_subdirectory (prj.lab)
+add_subdirectory (prj.test)
 

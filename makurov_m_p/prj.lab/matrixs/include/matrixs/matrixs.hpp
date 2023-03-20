@@ -16,20 +16,20 @@ public:
 	MatrixS() = default;
 	MatrixS(const MatrixS& rhs) = default;
 	MatrixS(MatrixS&& rhs) = default;
-	MatrixS(const size_type& size);
+	MatrixS(const ptrdiff_t&, const ptrdiff_t&);
 	~MatrixS() = default;
 
 	MatrixS& operator=(const MatrixS& rhs) = default;
 	MatrixS& operator=(MatrixS&& rhs) = default;
-	[[nodiscard]] int& at(const size_type elem);
-	[[nodiscard]] int at(const size_type elem) const;
+	[[nodiscard]] int& at(const ptrdiff_t&, const ptrdiff_t&);
+	[[nodiscard]] int at(const ptrdiff_t&, const ptrdiff_t&) const;
 
 
-	ptrdiff_t sizeX() { return sizeX_; }
-	ptrdiff_t sizeY() { return sizeY_; }
+	ptrdiff_t sizeX() noexcept { return sizeX_; }
+	ptrdiff_t sizeY() noexcept { return sizeY_; }
 
-	void resize(const size_type new_size);
-	void swapRows(const size_type& indexes);
+	void resize(const ptrdiff_t&, const ptrdiff_t&);
+	void swapRows(const ptrdiff_t&, const ptrdiff_t&);
 
 	
 	

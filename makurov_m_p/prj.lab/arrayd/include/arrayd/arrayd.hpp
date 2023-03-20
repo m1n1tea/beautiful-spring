@@ -7,7 +7,7 @@
 #include<malloc.h>
 template<typename T>
 void swap(T& a, T& b) noexcept;
-void sizeCheck(const ptrdiff_t& size);
+inline void sizeCheck(const ptrdiff_t& size);
 
 
 
@@ -150,7 +150,7 @@ void swap(T& a, T& b) noexcept {
 	b = std::move(tmp);
 }
 
-void sizeCheck(const ptrdiff_t& size) {
+inline void sizeCheck(const ptrdiff_t& size) {
 	if (size <= 0) {
 		throw std::invalid_argument("Array size or change in size is not positive");
 	}

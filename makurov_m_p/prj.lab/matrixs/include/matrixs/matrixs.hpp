@@ -409,6 +409,7 @@ public:
 
 	void resize(const size_type&);
 	void swapRows(const size_type&);
+	void indexCheck(const size_type&) const;
 
 	
 	

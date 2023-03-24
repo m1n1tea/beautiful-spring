@@ -64,5 +64,19 @@ int main() {
 		}
 		std::cout << "\n";
 	}
+	std::cout << "\n";
+	for (int i = 0; i < x.nRows(); i++) {
+		for (int j = 0; j < x.nCols(); j++) {
+			std::cout << x.at(i, j) << " ";
+		}
+		std::cout << "\n";
+	}
+	std::cout << "\n";
+	for (int i = 0; i < y.nRows(); i++) {
+		for (int j = 0; j < y.nCols(); j++) {
+			std::cout << y.at(i, j) << " ";
+		}
+		std::cout << "\n";
+	}
 
 }

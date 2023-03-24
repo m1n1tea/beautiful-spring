@@ -44,9 +44,9 @@ public:
 	void resize(const ptrdiff_t& newsize);
 	void resize(const ptrdiff_t& newsize, const type& common);
 	void insert(const ptrdiff_t& index, const type& common);
-	void push_back(const type& common);
+	void pushBack(const type& common);
 	void remove(const ptrdiff_t& index);
-	void pop_back();
+	void popBack();
 	bool empty();
 
 
@@ -67,7 +67,7 @@ private:
 
 template<typename type>
 ArrayT<type>::ArrayT(const ptrdiff_t& size) :arraySize_(size), arrayCap_(size) {
-	sizeCheck(size);
+	sizeCheck(size+1);
 	arr_ = new type[arraySize_];
 	for (ptrdiff_t i = 0; i < arraySize_; ++i) {
 		arr_[i] = commonElement;
@@ -76,7 +76,7 @@ ArrayT<type>::ArrayT(const ptrdiff_t& size) :arraySize_(size), arrayCap_(size) {
 
 template<typename type>
 ArrayT<type>::ArrayT(const ptrdiff_t& size, const type& common) :arraySize_(size), arrayCap_(size) {
-	sizeCheck(size);
+	sizeCheck(size+1);
 	arr_ = new type[arraySize_];
 	for (ptrdiff_t i = 0; i < arraySize_; ++i) {
 		arr_[i] = common;
@@ -354,7 +354,7 @@ void ArrayT<type>::insert(const ptrdiff_t& index, const type& common) {
 }
 
 template<typename type>
-void ArrayT<type>::push_back(const type& common) {
+void ArrayT<type>::pushBack(const type& common) {
 	insert(ssize(), 1, common);
 }
 
@@ -364,7 +364,7 @@ void ArrayT<type>::remove(const ptrdiff_t& index) {
 }
 
 template<typename type>
-void ArrayT<type>::pop_back() {
+void ArrayT<type>::popBack() {
 	erase(ssize() - 1, 1);
 }
 

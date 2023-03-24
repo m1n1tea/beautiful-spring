@@ -1,9 +1,4 @@
-﻿#ifndef MATRIX_HPP_2023
-#define MATRIX_HPP_2023
-
-
-
-
+﻿
 #ifndef ARRAY_DYNAMIC_HPP_2023
 #define ARRAY_DYNAMIC_HPP_2023
 
@@ -28,10 +23,10 @@ public:
 	~ArrayT() noexcept;
 	ArrayT& operator=(const ArrayT& rhs) noexcept;
 	ArrayT& operator=(ArrayT&& rhs) noexcept;
-	[[nodiscard]] type& operator[](const ptrdiff_t& index);
-	[[nodiscard]] const type& operator[](const ptrdiff_t& index) const;
-	[[nodiscard]] ptrdiff_t ssize() const noexcept;
-	[[nodiscard]] ptrdiff_t capacity() const noexcept;
+	[[nodiscard]]  type& operator[](const ptrdiff_t& index);
+	[[nodiscard]]  const type& operator[](const ptrdiff_t& index) const;
+	[[nodiscard]]  ptrdiff_t ssize() const noexcept;
+	[[nodiscard]]  ptrdiff_t capacity() const noexcept;
 
 
 	void insert(const ptrdiff_t& index, const ptrdiff_t& addsize, const type& common);
@@ -206,7 +201,7 @@ void ArrayT<type>::insert(const ptrdiff_t& index, const ptrdiff_t& addsize, cons
 	indexCheck(index);
 	--arraySize_;
 
-	sizeCheck(addsize + 1);
+	sizeCheck(addsize+1);
 	if (addsize + arraySize_ > arrayCap_) {
 		arrayCap_ = addsize + arraySize_;
 		arrayCap_ *= capMltpr;
@@ -329,7 +324,7 @@ void ArrayT<type>::resize(const ptrdiff_t& newSize, const type& common)
 		insert(ssize(), newSize - arraySize_, common);
 	}
 	else {
-		erase(newSize, ssize() - newSize);
+		erase(newSize,ssize()-newSize);
 	}
 
 
@@ -373,62 +368,6 @@ bool ArrayT<type>::empty()
 {
 	return arraySize_ != 0;
 }
-
-#endif
-
-
-
-
-class MatrixS {
-
-	using size_type = std::pair<std::ptrdiff_t, std::ptrdiff_t>;
-
-public:
-	MatrixS() = default;
-	MatrixS(const MatrixS& rhs) = default;
-	MatrixS(MatrixS&& rhs) = default;
-	MatrixS(const ptrdiff_t&, const ptrdiff_t&);
-	explicit MatrixS(const size_type&);
-	~MatrixS() = default;
-
-	MatrixS& operator=(const MatrixS& rhs) = default;
-	MatrixS& operator=(MatrixS&& rhs) = default;
-
-	[[nodiscard]] int& at(const ptrdiff_t&, const ptrdiff_t&);
-	[[nodiscard]] int at(const ptrdiff_t&, const ptrdiff_t&) const;
-
-	[[nodiscard]] int& at(const size_type&);
-	[[nodiscard]] int at(const size_type&) const;
-
-
-	ptrdiff_t nCols() noexcept { return sizeX_; }
-	ptrdiff_t nRows() noexcept { return sizeY_; }
-
-	void resize(const ptrdiff_t&, const ptrdiff_t&);
-	void swapRows(const ptrdiff_t&, const ptrdiff_t&);
-
-	void resize(const size_type&);
-	void swapRows(const size_type&);
-
-	
-	
-
-
-private:
-	ArrayT<int> matrix_;
-	ArrayT<ptrdiff_t> rows_;
-	
-	ptrdiff_t sizeX_ = 0;
-	ptrdiff_t sizeY_ = 0;
-
-};
-
-
-
-
-
-
-
 
 
 #endif

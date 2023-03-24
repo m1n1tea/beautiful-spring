@@ -13,6 +13,11 @@ set_property(TARGET matrixs_test PROPERTY CXX_STANDARD 20)
 target_link_libraries(matrixs_test matrixs)
 add_test(NAME matrixs_test COMMAND matrixs_test)
 
+add_executable(arrayt_test arrayt_test.cpp)
+set_property(TARGET arrayt_test PROPERTY CXX_STANDARD 20)
+target_link_libraries(arrayt_test arrayt)
+add_test(NAME arrayt_test COMMAND arrayt_test)
+
 
 
 

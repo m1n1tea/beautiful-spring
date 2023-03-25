@@ -44,7 +44,7 @@ int main()
 		std::cout << x[i] << " ";
 	}
 
-	x.resize(16);
+	x=std::move(x);
 	std::cout << "\n";
 	std::cout << x.ssize() << "\n";
 	for (int i = 0; i < x.ssize(); i++) {

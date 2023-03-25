@@ -117,7 +117,7 @@ ArrayT<type>::~ArrayT() noexcept {
 template<typename type>
 ArrayT<type>& ArrayT<type>::operator=(const ArrayT& rhs) noexcept
 {
-	if (this == &rhs)
+	if (arr_ == rhs.arr_)
 		return *this;
 	ArrayT tmp(rhs);
 	swap(*this, tmp);
@@ -127,6 +127,8 @@ ArrayT<type>& ArrayT<type>::operator=(const ArrayT& rhs) noexcept
 template<typename type>
 ArrayT<type>& ArrayT<type>::operator=(ArrayT&& rhs) noexcept
 {
+	if (arr_ == rhs.arr_)
+		return *this;
 	delete[] arr_;
 	arr_ = std::move(rhs.arr_);
 	rhs.arr_ = nullptr;

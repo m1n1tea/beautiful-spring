@@ -1,5 +1,4 @@
-﻿#ifndef MATRIX_HPP_2023
-#define MATRIX_HPP_2023
+﻿
 
 
 
@@ -57,8 +56,8 @@ private:
     ptrdiff_t arraySize_ = 0;
     ptrdiff_t arrayCap_ = 0;
     inline static const type commonElement = type();
+    inline static type trash_can = type();
     static const ptrdiff_t capMltpr = 2;
-
 };
 
 
@@ -67,7 +66,7 @@ private:
 
 template<typename type>
 ArrayT<type>::ArrayT(const ptrdiff_t& size) :arraySize_(size), arrayCap_(size) {
-    sizeCheck(size+1);
+    sizeCheck(size + 1);
     arr_ = new type[arraySize_];
     for (ptrdiff_t i = 0; i < arraySize_; ++i) {
         arr_[i] = commonElement;
@@ -76,7 +75,7 @@ ArrayT<type>::ArrayT(const ptrdiff_t& size) :arraySize_(size), arrayCap_(size) {
 
 template<typename type>
 ArrayT<type>::ArrayT(const ptrdiff_t& size, const type& common) :arraySize_(size), arrayCap_(size) {
-    sizeCheck(size+1);
+    sizeCheck(size + 1);
     arr_ = new type[arraySize_];
     for (ptrdiff_t i = 0; i < arraySize_; ++i) {
         arr_[i] = common;
@@ -299,7 +298,7 @@ void ArrayT<type>::erase(const ptrdiff_t& index, const ptrdiff_t& removesize)
         arr_[i - removesize] = std::move(arr_[i]);
     }
     for (ptrdiff_t i = arraySize_ - removesize; i < index + removesize; ++i) {
-        arr_[i].~type();
+        trash_can = std::move(arr_[i]);
     }
     arraySize_ -= removesize;
 }
@@ -376,10 +375,12 @@ bool ArrayT<type>::empty()
     return arraySize_ != 0;
 }
 
+
 #endif
 
 
-
+#ifndef MATRIX_HPP_2023
+#define MATRIX_HPP_2023
 
 class MatrixS {
 

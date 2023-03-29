@@ -384,41 +384,46 @@ bool ArrayT<type>::empty()
 
 class MatrixS {
 
-    using size_type = std::pair<std::ptrdiff_t, std::ptrdiff_t>;
+    using SizeType = std::tuple<std::ptrdiff_t, std::ptrdiff_t>;
 
 public:
     MatrixS() = default;
     MatrixS(const MatrixS& rhs) = default;
     MatrixS(MatrixS&& rhs) = default;
-    MatrixS(const ptrdiff_t&, const ptrdiff_t&);
-    explicit MatrixS(const size_type&);
+    MatrixS(const ptrdiff_t, const ptrdiff_t);
+    explicit MatrixS(const SizeType&);
     ~MatrixS() = default;
 
     MatrixS& operator=(const MatrixS& rhs) = default;
     MatrixS& operator=(MatrixS&& rhs) = default;
 
-    [[nodiscard]] int& at(const ptrdiff_t&, const ptrdiff_t&);
-    [[nodiscard]] int at(const ptrdiff_t&, const ptrdiff_t&) const;
+    [[nodiscard]] int& at(const ptrdiff_t, const ptrdiff_t);
+    [[nodiscard]] const int& at(const ptrdiff_t, const ptrdiff_t) const;
 
-    [[nodiscard]] int& at(const size_type&);
-    [[nodiscard]] int at(const size_type&) const;
+    [[nodiscard]] int& at(const SizeType&);
+    [[nodiscard]] const int& at(const SizeType&) const;
 
 
     ptrdiff_t nCols() noexcept { return sizeX_; }
     ptrdiff_t nRows() noexcept { return sizeY_; }
+    const SizeType& ssize() const noexcept  {return { sizeY_ ,sizeX_ };}
 
-    void resize(const ptrdiff_t&, const ptrdiff_t&);
-    void swapRows(const ptrdiff_t&, const ptrdiff_t&);
+    void resize(const ptrdiff_t, const ptrdiff_t);
+    void resize(const SizeType&);
 
-    void resize(const size_type&);
-    void swapRows(const size_type&);
-    void indexCheck(const size_type&) const;
+    void swapRows(const ptrdiff_t, const ptrdiff_t);
+    void swapRows(const SizeType&);
+
+    
 
     
     
 
 
 private:
+    void indexCheck(const SizeType&) const;
+
+
     ArrayT<int> matrix_;
     ArrayT<ptrdiff_t> rows_;
     

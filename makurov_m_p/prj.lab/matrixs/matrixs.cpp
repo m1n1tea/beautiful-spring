@@ -1,55 +1,55 @@
 ﻿#include "include/matrixs/matrixs.hpp"
-MatrixS::MatrixS(const ptrdiff_t& sizeY, const ptrdiff_t& sizeX) : sizeX_(sizeX), sizeY_(sizeY), matrix_(ArrayT<int>(sizeX* sizeY)), rows_(ArrayT<ptrdiff_t>(sizeY)) {
+MatrixS::MatrixS(const ptrdiff_t sizeY, const ptrdiff_t sizeX) : sizeX_(sizeX), sizeY_(sizeY), matrix_(ArrayT<int>(sizeX* sizeY)), rows_(ArrayT<ptrdiff_t>(sizeY)) {
     for (ptrdiff_t i = 1; i < sizeY_; ++i) {
         rows_[i] = i;
     }
 
 }
 
-MatrixS::MatrixS(const size_type& size) :sizeX_(size.second), sizeY_(size.first), matrix_(ArrayT<int>(size.second* size.first)), rows_(ArrayT<ptrdiff_t>(size.first))
+MatrixS::MatrixS(const SizeType& size) :sizeX_(get<1>(size)), sizeY_(get<0>(size)), matrix_(ArrayT<int>(get<0>(size)* get<1>(size))), rows_(ArrayT<ptrdiff_t>(get<0>(size)))
 {
-    for (ptrdiff_t i = 1; i < size.first; ++i) {
+    for (ptrdiff_t i = 1; i < get<0>(size); ++i) {
         rows_[i] = i;
     }
 }
 
 
-int& MatrixS::at(const ptrdiff_t& indY, const ptrdiff_t& indX) {
+int& MatrixS::at(const ptrdiff_t indY, const ptrdiff_t indX) {
     indexCheck({ indY,indX });
     return  matrix_[rows_[indY] * sizeX_ + indX];
 }
 
-int MatrixS::at(const ptrdiff_t& indY, const ptrdiff_t& indX) const {
+const int& MatrixS::at(const ptrdiff_t indY, const ptrdiff_t indX) const {
     indexCheck({ indY,indX });
     return  matrix_[rows_[indY] * sizeX_ + indX];
 }
 
-int& MatrixS::at(const size_type& elem)
+int& MatrixS::at(const SizeType& elem)
 {
     indexCheck(elem);
-    return matrix_[rows_[elem.first] * sizeX_ + elem.second];
+    return matrix_[rows_[get<0>(elem)] * sizeX_ + get<1>(elem)];
 }
 
-int MatrixS::at(const size_type& elem) const
+const int& MatrixS::at(const SizeType& elem) const
 {
     indexCheck(elem);
-    return matrix_[rows_[elem.first] * sizeX_ + elem.second];
+    return matrix_[rows_[get<0>(elem)] * sizeX_ + get<1>(elem)];
 }
 
-void MatrixS::swapRows(const ptrdiff_t& lhs, const ptrdiff_t& rhs) {
+void MatrixS::swapRows(const ptrdiff_t lhs, const ptrdiff_t rhs) {
     swap(rows_[lhs], rows_[rhs]);
 }
 
-void MatrixS::swapRows(const size_type& elem) {
-    swap(rows_[elem.first], rows_[elem.second]);
+void MatrixS::swapRows(const SizeType& elem) {
+    swap(rows_[get<0>(elem)], rows_[get<1>(elem)]);
 }
 
-void MatrixS::resize(const size_type& elem)
+void MatrixS::resize(const SizeType& elem)
 {
-    return resize(elem.first, elem.second);
+    return resize(get<0>(elem), get<1>(elem));
 }
 
-void MatrixS::resize(const ptrdiff_t& sizeYNew, const ptrdiff_t& sizeXNew) {
+void MatrixS::resize(const ptrdiff_t sizeYNew, const ptrdiff_t sizeXNew) {
     sizeCheck(sizeYNew);
     sizeCheck(sizeXNew);
     ptrdiff_t sizeXSmall = (sizeXNew < sizeX_) ? sizeXNew : sizeX_;
@@ -71,11 +71,11 @@ void MatrixS::resize(const ptrdiff_t& sizeYNew, const ptrdiff_t& sizeXNew) {
 }
 
 
-void MatrixS::indexCheck(const size_type& elem) const {
-    if (elem.first < 0 || elem.first >= sizeY_) {
+void MatrixS::indexCheck(const SizeType& elem) const {
+    if (get<0>(elem) < 0 || get<0>(elem) >= sizeY_) {
         throw std::out_of_range("Index is out of range of array");
     }
-    if (elem.second < 0 || elem.second >= sizeX_) {
+    if (get<1>(elem) < 0 || get<1>(elem) >= sizeX_) {
         throw std::out_of_range("Index is out of range of array");
     }
 }

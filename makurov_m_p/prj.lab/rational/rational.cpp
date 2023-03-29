@@ -166,7 +166,7 @@ std::istream& Rational::readIn(std::istream& istrm) noexcept {
     char div = ' ';
     auto flags = istrm.flags();
     bool skip = (flags & std::ios_base::skipws);
-    istrm >> num >> std::noskipws >> div >> denum >> std::skipws;
+    istrm >> num >> std::noskipws >> div >> denum;
     //bool good = (flags & std::ios_base::goodbit);
     //bool bad = (flags & std::ios_base::badbit);
     //bool fail = (flags & std::ios_base::failbit);

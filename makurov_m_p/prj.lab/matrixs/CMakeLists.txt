@@ -1,6 +1,6 @@
 ﻿add_library(matrixs "matrixs.cpp" "include/matrixs/matrixs.hpp")
-target_link_libraries(matrixs arrayd)
 set_property(TARGET matrixs PROPERTY CXX_STANDARD 20)
+target_link_libraries(matrixs arrayt)
 
 target_include_directories(matrixs PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

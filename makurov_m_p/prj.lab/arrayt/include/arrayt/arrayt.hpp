@@ -4,7 +4,6 @@
 
 #include <cstdint>
 #include <stdexcept>
-#include<malloc.h>
 template<typename T>
 void swap(T& a, T& b) noexcept;
 inline void sizeCheck(const std::ptrdiff_t& size);

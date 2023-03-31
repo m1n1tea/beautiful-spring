@@ -7,7 +7,7 @@
 #include<malloc.h>
 template<typename T>
 void swap(T& a, T& b) noexcept;
-inline void sizeCheck(const ptrdiff_t& size);
+inline void sizeCheck(const std::ptrdiff_t& size);
 
 
 
@@ -18,42 +18,42 @@ public:
     ArrayT() = default;
     ArrayT(const ArrayT& rhs) noexcept;
     ArrayT(ArrayT&& rhs) noexcept;
-    explicit ArrayT(const ptrdiff_t& size);
-    ArrayT(const ptrdiff_t& size, const type& common);
+    explicit ArrayT(const std::ptrdiff_t& size);
+    ArrayT(const std::ptrdiff_t& size, const type& common);
     ~ArrayT() noexcept;
     ArrayT& operator=(const ArrayT& rhs) noexcept;
     ArrayT& operator=(ArrayT&& rhs) noexcept;
-    [[nodiscard]] type& operator[](const ptrdiff_t& index);
-    [[nodiscard]] const type& operator[](const ptrdiff_t& index) const;
-    [[nodiscard]] ptrdiff_t ssize() const noexcept;
-    [[nodiscard]] ptrdiff_t capacity() const noexcept;
+    [[nodiscard]] type& operator[](const std::ptrdiff_t& index);
+    [[nodiscard]] const type& operator[](const std::ptrdiff_t& index) const;
+    [[nodiscard]] std::ptrdiff_t ssize() const noexcept;
+    [[nodiscard]] std::ptrdiff_t capacity() const noexcept;
 
 
-    void insert(const ptrdiff_t& index, const ptrdiff_t& add_size, const type& common);
-    void insert(const ptrdiff_t& index, const ArrayT& rhs, const ptrdiff_t& begin, const ptrdiff_t& end);
-    void erase(const ptrdiff_t& index, const ptrdiff_t& remove_size);
-    void reserve(const ptrdiff_t& size);
+    void insert(const std::ptrdiff_t& index, const std::ptrdiff_t& add_size, const type& common);
+    void insert(const std::ptrdiff_t& index, const ArrayT& rhs, const std::ptrdiff_t& begin, const std::ptrdiff_t& end);
+    void erase(const std::ptrdiff_t& index, const std::ptrdiff_t& remove_size);
+    void reserve(const std::ptrdiff_t& size);
 
 
-    void insert(const ptrdiff_t& index, const ArrayT& rhs);
-    void resize(const ptrdiff_t& new_size);
-    void resize(const ptrdiff_t& new_size, const type& common);
-    void insert(const ptrdiff_t& index, const type& common);
+    void insert(const std::ptrdiff_t& index, const ArrayT& rhs);
+    void resize(const std::ptrdiff_t& new_size);
+    void resize(const std::ptrdiff_t& new_size, const type& common);
+    void insert(const std::ptrdiff_t& index, const type& common);
     void pushBack(const type& common);
-    void remove(const ptrdiff_t& index);
+    void remove(const std::ptrdiff_t& index);
     void popBack();
     bool empty();
 
 
 
 private:
-    void indexCheck(const ptrdiff_t& index) const;
+    void indexCheck(const std::ptrdiff_t& index) const;
     type* arr_ = nullptr;
-    ptrdiff_t array_size_ = 0;
-    ptrdiff_t array_cap_ = 0;
+    std::ptrdiff_t array_size_ = 0;
+    std::ptrdiff_t array_cap_ = 0;
     inline static const type common_element = type();
     inline static type trash_can = type();
-    static const ptrdiff_t cap_mltpr = 2;
+    static const std::ptrdiff_t cap_mltpr = 2;
 };
 
 
@@ -61,19 +61,19 @@ private:
 
 
 template<typename type>
-ArrayT<type>::ArrayT(const ptrdiff_t& size) :array_size_(size), array_cap_(size) {
+ArrayT<type>::ArrayT(const std::ptrdiff_t& size) :array_size_(size), array_cap_(size) {
     sizeCheck(size + 1);
     arr_ = new type[array_size_];
-    for (ptrdiff_t i = 0; i < array_size_; ++i) {
+    for (std::ptrdiff_t i = 0; i < array_size_; ++i) {
         arr_[i] = common_element;
     }
 }
 
 template<typename type>
-ArrayT<type>::ArrayT(const ptrdiff_t& size, const type& common) :array_size_(size), array_cap_(size) {
+ArrayT<type>::ArrayT(const std::ptrdiff_t& size, const type& common) :array_size_(size), array_cap_(size) {
     sizeCheck(size + 1);
     arr_ = new type[array_size_];
-    for (ptrdiff_t i = 0; i < array_size_; ++i) {
+    for (std::ptrdiff_t i = 0; i < array_size_; ++i) {
         arr_[i] = common;
     }
 }
@@ -83,7 +83,7 @@ template<typename type>
 ArrayT<type>::ArrayT(const ArrayT<type>& rhs)noexcept :array_size_(rhs.array_size_), array_cap_(rhs.array_cap_) {
     if (array_cap_ > 0) {
         arr_ = new type[array_cap_];
-        for (ptrdiff_t i = 0; i < array_size_; ++i) {
+        for (std::ptrdiff_t i = 0; i < array_size_; ++i) {
             arr_[i] = rhs.arr_[i];
         }
     }
@@ -152,14 +152,14 @@ void swap(T& a, T& b) noexcept {
     b = std::move(tmp);
 }
 
-inline void sizeCheck(const ptrdiff_t& size) {
+inline void sizeCheck(const std::ptrdiff_t& size) {
     if (size <= 0) {
         throw std::invalid_argument("Array size or change in size is not positive");
     }
 }
 
 template<typename type>
-void ArrayT<type>::indexCheck(const ptrdiff_t& index) const {
+void ArrayT<type>::indexCheck(const std::ptrdiff_t& index) const {
     if (index < 0 || index >= array_size_) {
         throw std::out_of_range("Index is out of range of array");
     }
@@ -167,14 +167,14 @@ void ArrayT<type>::indexCheck(const ptrdiff_t& index) const {
 
 
 template<typename type>
-type& ArrayT<type>::operator[](const ptrdiff_t& index)
+type& ArrayT<type>::operator[](const std::ptrdiff_t& index)
 {
     indexCheck(index);
     return arr_[index];
 }
 
 template<typename type>
-const type& ArrayT<type>::operator[](const ptrdiff_t& index) const
+const type& ArrayT<type>::operator[](const std::ptrdiff_t& index) const
 {
     indexCheck(index);
     return arr_[index];
@@ -182,19 +182,19 @@ const type& ArrayT<type>::operator[](const ptrdiff_t& index) const
 
 
 template<typename type>
-ptrdiff_t ArrayT<type>::ssize() const noexcept
+std::ptrdiff_t ArrayT<type>::ssize() const noexcept
 {
     return array_size_;
 }
 
 template<typename type>
-ptrdiff_t ArrayT<type>::capacity() const noexcept
+std::ptrdiff_t ArrayT<type>::capacity() const noexcept
 {
     return array_cap_;
 }
 
 template<typename type>
-void ArrayT<type>::insert(const ptrdiff_t& index, const ptrdiff_t& add_size, const type& common)
+void ArrayT<type>::insert(const std::ptrdiff_t& index, const std::ptrdiff_t& add_size, const type& common)
 {
     if (add_size == 0)
         return;
@@ -208,14 +208,14 @@ void ArrayT<type>::insert(const ptrdiff_t& index, const ptrdiff_t& add_size, con
         array_cap_ = add_size + array_size_;
         array_cap_ *= cap_mltpr;
         type* newArray = new type[array_cap_];
-        for (ptrdiff_t i = 0; i < index; ++i) {
+        for (std::ptrdiff_t i = 0; i < index; ++i) {
             newArray[i] = std::move(arr_[i]);
         }
-        for (ptrdiff_t i = index; i < index + add_size; ++i) {
+        for (std::ptrdiff_t i = index; i < index + add_size; ++i) {
             newArray[i] = common;
         }
 
-        for (ptrdiff_t i = index + add_size; i < add_size + array_size_; ++i) {
+        for (std::ptrdiff_t i = index + add_size; i < add_size + array_size_; ++i) {
             newArray[i] = std::move(arr_[i - add_size]);
         }
         delete[] arr_;
@@ -223,10 +223,10 @@ void ArrayT<type>::insert(const ptrdiff_t& index, const ptrdiff_t& add_size, con
     }
     else {
 
-        for (ptrdiff_t i = index + add_size; i < add_size + array_size_; ++i) {
+        for (std::ptrdiff_t i = index + add_size; i < add_size + array_size_; ++i) {
             arr_[i] = std::move(arr_[i - add_size]);
         }
-        for (ptrdiff_t i = index; i < index + add_size; ++i) {
+        for (std::ptrdiff_t i = index; i < index + add_size; ++i) {
             arr_[i] = common;
         }
 
@@ -236,7 +236,7 @@ void ArrayT<type>::insert(const ptrdiff_t& index, const ptrdiff_t& add_size, con
 
 
 template<typename type>
-void ArrayT<type>::insert(const ptrdiff_t& index, const ArrayT<type>& rhs, const ptrdiff_t& begin, const ptrdiff_t& end)
+void ArrayT<type>::insert(const std::ptrdiff_t& index, const ArrayT<type>& rhs, const std::ptrdiff_t& begin, const std::ptrdiff_t& end)
 {
     ++array_size_;
     indexCheck(index);
@@ -244,7 +244,7 @@ void ArrayT<type>::insert(const ptrdiff_t& index, const ArrayT<type>& rhs, const
     rhs.indexCheck(begin);
     rhs.indexCheck(end - 1);
 
-    const ptrdiff_t add_size = end - begin;
+    const std::ptrdiff_t add_size = end - begin;
     if (add_size == 0)
         return;
 
@@ -252,14 +252,14 @@ void ArrayT<type>::insert(const ptrdiff_t& index, const ArrayT<type>& rhs, const
         array_cap_ = add_size + array_size_;
         array_cap_ *= cap_mltpr;
         type* newArray = new type[array_cap_];
-        for (ptrdiff_t i = 0; i < index; ++i) {
+        for (std::ptrdiff_t i = 0; i < index; ++i) {
             newArray[i] = std::move(arr_[i]);
         }
-        for (ptrdiff_t i = index; i < index + add_size; ++i) {
+        for (std::ptrdiff_t i = index; i < index + add_size; ++i) {
             newArray[i] = (rhs.arr_[i - index + begin]);
         }
 
-        for (ptrdiff_t i = index + add_size; i < add_size + array_size_; ++i) {
+        for (std::ptrdiff_t i = index + add_size; i < add_size + array_size_; ++i) {
             newArray[i] = std::move(arr_[i - add_size]);
         }
         delete[] arr_;
@@ -267,10 +267,10 @@ void ArrayT<type>::insert(const ptrdiff_t& index, const ArrayT<type>& rhs, const
     }
     else {
 
-        for (ptrdiff_t i = index + add_size; i < add_size + array_size_; ++i) {
+        for (std::ptrdiff_t i = index + add_size; i < add_size + array_size_; ++i) {
             arr_[i] = std::move(arr_[i - add_size]);
         }
-        for (ptrdiff_t i = index; i < index + add_size; ++i) {
+        for (std::ptrdiff_t i = index; i < index + add_size; ++i) {
             arr_[i] = rhs.arr_[i - index + begin];
         }
 
@@ -281,7 +281,7 @@ void ArrayT<type>::insert(const ptrdiff_t& index, const ArrayT<type>& rhs, const
 
 
 template<typename type>
-void ArrayT<type>::erase(const ptrdiff_t& index, const ptrdiff_t& remove_size)
+void ArrayT<type>::erase(const std::ptrdiff_t& index, const std::ptrdiff_t& remove_size)
 {
     if (remove_size == 0)
         return;
@@ -290,23 +290,23 @@ void ArrayT<type>::erase(const ptrdiff_t& index, const ptrdiff_t& remove_size)
     indexCheck(index);
     indexCheck(index + remove_size - 1);
 
-    for (ptrdiff_t i = index + remove_size; i < array_size_; ++i) {
+    for (std::ptrdiff_t i = index + remove_size; i < array_size_; ++i) {
         arr_[i - remove_size] = std::move(arr_[i]);
     }
-    for (ptrdiff_t i = array_size_ - remove_size; i < index + remove_size; ++i) {
+    for (std::ptrdiff_t i = array_size_ - remove_size; i < index + remove_size; ++i) {
         trash_can = std::move(arr_[i]);
     }
     array_size_ -= remove_size;
 }
 
 template<typename type>
-void ArrayT<type>::reserve(const ptrdiff_t& size)
+void ArrayT<type>::reserve(const std::ptrdiff_t& size)
 {
     if (size <= array_cap_)
         return;
     array_cap_ = size;
     type* newArray = new type[array_cap_];
-    for (ptrdiff_t i = 0; i < array_size_; ++i) {
+    for (std::ptrdiff_t i = 0; i < array_size_; ++i) {
         newArray[i] = arr_[i];
     }
     delete[] arr_;
@@ -317,7 +317,7 @@ void ArrayT<type>::reserve(const ptrdiff_t& size)
 
 
 template<typename type>
-void ArrayT<type>::resize(const ptrdiff_t& new_size, const type& common)
+void ArrayT<type>::resize(const std::ptrdiff_t& new_size, const type& common)
 {
     sizeCheck(new_size);
     if (new_size == array_size_)
@@ -333,20 +333,20 @@ void ArrayT<type>::resize(const ptrdiff_t& new_size, const type& common)
 }
 
 template<typename type>
-void ArrayT<type>::resize(const ptrdiff_t& new_size) {
+void ArrayT<type>::resize(const std::ptrdiff_t& new_size) {
     resize(new_size, common_element);
 }
 
 
 template<typename type>
-void ArrayT<type>::insert(const ptrdiff_t& index, const ArrayT& rhs) {
+void ArrayT<type>::insert(const std::ptrdiff_t& index, const ArrayT& rhs) {
     insert(index, rhs, 0, rhs.ssize());
 }
 
 
 
 template<typename type>
-void ArrayT<type>::insert(const ptrdiff_t& index, const type& common) {
+void ArrayT<type>::insert(const std::ptrdiff_t& index, const type& common) {
     insert(index, 1, common);
 }
 
@@ -356,7 +356,7 @@ void ArrayT<type>::pushBack(const type& common) {
 }
 
 template<typename type>
-void ArrayT<type>::remove(const ptrdiff_t& index) {
+void ArrayT<type>::remove(const std::ptrdiff_t& index) {
     erase(index, 1);
 }
 

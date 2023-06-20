@@ -78,7 +78,7 @@ namespace cellworld{
         static std::random_device rd;
         static int initial_population=100;
         static int cycle_len=0;
-        static float strenght=0;
+        static float strenght=100;
         if (scene_is_changed_) {
             size_x=scenario_.sizeX();
             size_y = scenario_.sizeY();
@@ -99,8 +99,8 @@ namespace cellworld{
             size_x = 100;
             size_y = 50;
             seed_ = 0;
-            initial_population = 0;
-            strenght = 0;
+            initial_population = 100;
+            strenght = 100;
             for (int i = 0; i < coefficients_count; ++i)
                 Creature::coeff_[i] = 0;
 

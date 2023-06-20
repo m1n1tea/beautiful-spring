@@ -1,6 +1,7 @@
 ﻿#include "scenario/scenario.h"
 namespace cellworld{
-    Scenario::Scenario(int size_x, int size_y) : Field(size_x, size_y), initial_population_(0), cycle_len_(0), iteration_(0), 
+    //если что,начальная популяция равеа 100 по умолчанию
+    Scenario::Scenario(int size_x, int size_y) : Field(size_x, size_y), initial_population_(100), cycle_len_(0), iteration_(0), 
               rewards_(size_x*size_y,0), rewards_backup_(size_x* size_y, 0),positions_(size_x* size_y, 0){
     survivors_.reserve(size());
 }

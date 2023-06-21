@@ -16,10 +16,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 project ("2_month_project")
 enable_testing()
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+find_package(OpenMP)
 find_package(imgui REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(glad REQUIRED)
-find_package(OpenMP REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
 
 

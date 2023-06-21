@@ -2,10 +2,14 @@
 
 #ifndef EVOLVING_WORLD_2023_Q2
 #define EVOLVING_WORLD_2023_Q2
-#define EIGEN_NO_DEBUG
 
-#include <Eigen/Core>
+
+
+#define GL_SILENCE_DEPRECATION
 #include<glad/glad.h>
+
+#define EIGEN_NO_DEBUG
+#include <Eigen/Core>
 
 #include<omp.h>
 
@@ -14,7 +18,7 @@
 #include <random>
 #include <vector>
 
-#define GL_SILENCE_DEPRECATION
+
 
 
 

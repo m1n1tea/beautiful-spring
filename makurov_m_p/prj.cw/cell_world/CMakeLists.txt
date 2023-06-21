@@ -5,7 +5,7 @@
 # Add source to this project's executable.
 add_executable (cell_world "cell_world.cpp")
 
-target_link_libraries(cell_world PRIVATE imgui::imgui glfw glad::glad creature save_system UI scenario)
+target_link_libraries(cell_world PRIVATE imgui::imgui glfw creature save_system UI scenario)
 if(OpenMP_CXX_FOUND)
     target_link_libraries(cell_world PUBLIC OpenMP::OpenMP_CXX)
 endif()

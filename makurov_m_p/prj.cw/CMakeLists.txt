@@ -25,6 +25,12 @@ find_package(Eigen3 CONFIG REQUIRED)
 
 find_package(OpenMP)
 
+if(OpenMP_CXX_FOUND)
+    add_compile_definitions(OPEN_MP_FOUND=1)
+else()
+    add_compile_definitions(OPEN_MP_FOUND=0)
+endif()
+
 find_package(Doxygen)
 
 if(DOXYGEN_FOUND)

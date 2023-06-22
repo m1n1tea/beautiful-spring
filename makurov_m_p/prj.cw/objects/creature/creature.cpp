@@ -501,6 +501,7 @@ void Field::clear() {
     *this=Field(size_x_,size_y_);
 }
 
+#if OPEN_MP_FOUND == 1
 void Field::updatePositions(){
 //auto start = std::chrono::steady_clock::now();
 //auto end = std::chrono::steady_clock::now();
@@ -527,6 +528,7 @@ void Field::updatePositions(){
             zoo_ptr_[i]->think();
         }
     }
+
     #pragma omp parallel for
     for (int i = 0; i < size_; ++i) {
 
@@ -555,7 +557,7 @@ void Field::updatePositions(){
         }
     }
 
-    #pragma omp barrier
+        #pragma omp barrier
 
     for (int i = 0; i < size_; ++i) {
         if (zoo_ptr_[i]->getState() != not_exist) {
@@ -575,6 +577,83 @@ void Field::updatePositions(){
             
 
 }
+
+#else
+
+
+void Field::updatePositions() {
+    //auto start = std::chrono::steady_clock::now();
+    //auto end = std::chrono::steady_clock::now();
+    //std::chrono::duration<double> time = end - start;
+    //std::cout << "\n" << time.count();
+    for (int i = 0; i < size_; ++i) {
+        Creature& current = *zoo_ptr_[i];
+        if (current.getState() == alive) {
+            current.look(findCreature(zoo_ptr_[i], up), up);
+            current.look(findCreature(zoo_ptr_[i], down), down);
+            current.look(findCreature(zoo_ptr_[i], left), left);
+            current.look(findCreature(zoo_ptr_[i], right), right);
+            current.getInfo();
+            current.reverseInput();
+        }
+
+    }
+
+    for (int i = 0; i < size_; ++i) {
+
+        if (zoo_ptr_[i]->getState() == alive) {
+            zoo_ptr_[i]->think();
+        }
+    }
+
+    for (int i = 0; i < size_; ++i) {
+
+        if (zoo_ptr_[i]->getState() == not_exist)
+            continue;
+
+        zoo_ptr_[i]->act();
+
+        if (!validX(zoo_ptr_[i]->pos_x_)) {
+            zoo_ptr_[i]->pos_x_ %= size_x_;
+            if (zoo_ptr_[i]->pos_x_ < 0)
+                zoo_ptr_[i]->pos_x_ += size_x_;
+        }
+        if (!validY(zoo_ptr_[i]->pos_y_)) {
+            zoo_ptr_[i]->pos_y_ %= size_y_;
+            if (zoo_ptr_[i]->pos_y_ < 0)
+                zoo_ptr_[i]->pos_y_ += size_y_;
+        }
+
+    }
+
+    for (int i = 0; i < size_; ++i) {
+        if (zoo_ptr_[i]->getState() == alive && (zoo_ptr_[i]->getEnergy() > zoo_ptr_[i]->getEnergyLimit())) {
+            empty_zoo_ptr_[i]->addEnergy(zoo_ptr_[i]->Leftover());
+        }
+    }
+
+
+    for (int i = 0; i < size_; ++i) {
+        if (zoo_ptr_[i]->getState() != not_exist) {
+            conjoin(empty_zoo_ptr_[zoo_ptr_[i]->pos_x_ * size_y_ + zoo_ptr_[i]->pos_y_], zoo_ptr_[i]);
+        }
+
+    }
+
+    std::swap(empty_zoo_ptr_, zoo_ptr_);
+    for (int i = 0; i < size_x_; ++i) {
+        for (int j = 0; j < size_y_; ++j) {
+            empty_zoo_ptr_[i * size_y_ + j]->stopExisting();
+            empty_zoo_ptr_[i * size_y_ + j]->pos_x_ = i;
+            empty_zoo_ptr_[i * size_y_ + j]->pos_y_ = j;
+        }
+    }
+
+
+}
+
+
+#endif
 
 void Field::updateStates(){
     alive_count_ = 0;

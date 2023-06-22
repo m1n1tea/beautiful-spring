@@ -13,7 +13,11 @@ using namespace cellworld;
 
 int main()
 {   
-    Eigen::initParallel();
+
+    if (OPEN_MP_FOUND) {
+        Eigen::initParallel();
+    }
+    
 
 
 

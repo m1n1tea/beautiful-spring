@@ -11,8 +11,6 @@
 #define EIGEN_NO_DEBUG
 #include <Eigen/Core>
 
-#include<omp.h>
-
 #include <array>
 #include <fstream>
 #include <random>

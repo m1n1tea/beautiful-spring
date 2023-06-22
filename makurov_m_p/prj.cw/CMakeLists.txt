@@ -49,7 +49,7 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/documentation
 DESTINATION .)
 endif()
 
-add_subdirectory ("objects")
+add_subdirectory ("include")
 add_subdirectory ("cell_world")
 
 install(TARGETS cell_world RUNTIME)

@@ -11,11 +11,10 @@ if(OpenMP_CXX_FOUND)
 endif()
 set_property(TARGET cell_world PROPERTY CXX_STANDARD 20)
 
-#if (WIN32)
-#    # /ENTRY:mainCRTStartup keeps the same "main" function instead of requiring "WinMain"
-#    set(SUBSYSTEM_LINKER_OPTIONS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-#else()
-#    set(SUBSYSTEM_LINKER_OPTIONS "-mwindows")
-#endif()
+if (WIN32)
+    set(SUBSYSTEM_LINKER_OPTIONS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup>")
+else()
+    set(SUBSYSTEM_LINKER_OPTIONS "-mwindows")
+endif()
 
-target_link_options(cell_world PRIVATE ${SUBSYSTEM_LINKER_OPTIONS})
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${SUBSYSTEM_LINKER_OPTIONS}")

@@ -3,7 +3,6 @@
 #ifndef EVOLVING_WORLD_2023_Q2_UI
 #define EVOLVING_WORLD_2023_Q2_UI
 
-#include<creature/creature.h>
 #include<save_system/save_system.h>
 #include<scenario/scenario.h>
 

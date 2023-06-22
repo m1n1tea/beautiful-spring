@@ -15,7 +15,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_CURRENT_SOURCE_DIR}/bi
 
 project ("2_month_project")
 enable_testing()
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+
+
+
 find_package(imgui REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(glad REQUIRED)
@@ -41,9 +43,10 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/documentation
 DESTINATION .)
 endif()
 
-
-install(DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}/ DESTINATION bin FILES_MATCHING PATTERN "*glfw3*")
 add_subdirectory ("objects")
 add_subdirectory ("cell_world")
+
+install(TARGETS cell_world RUNTIME)
+install(DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}/ DESTINATION bin FILES_MATCHING PATTERN "*glfw3*")
 
 

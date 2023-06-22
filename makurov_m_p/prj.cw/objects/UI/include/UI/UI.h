@@ -3,11 +3,19 @@
 #ifndef EVOLVING_WORLD_2023_Q2_UI
 #define EVOLVING_WORLD_2023_Q2_UI
 
-#include "imgui.h"
 #include<creature/creature.h>
 #include<save_system/save_system.h>
 #include<scenario/scenario.h>
+
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 #include "imgui_stdlib.h"
+
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
+
 namespace cellworld {
 
 

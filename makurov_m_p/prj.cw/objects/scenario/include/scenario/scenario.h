@@ -8,7 +8,6 @@
 #include<array>
 #include<vector>
 #include<random>
-#include<omp.h>
 namespace cellworld {
 
 
@@ -71,7 +70,7 @@ namespace cellworld {
         ///Задать прямоугольник двумя позициями, за нахождение на котором существо каждый ход получает энергию=strength
         void makeRewards(Position,Position, float strength);
 
-        ///Раздать награды
+        ///Раздать награды, использует многопоточность
         void giveRewards();
 
         ///Вернуться к предыдущему состоянию системы наград.

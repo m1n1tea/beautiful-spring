@@ -167,7 +167,7 @@ namespace cellworld{
         ImGui::Image(texture, { sizeX() * square_size * 1.f, sizeY() * square_size * 1.f });
     }
 
-
+#if OPEN_MP_FOUND == 1
     void Scenario::giveRewards() {
         #pragma omp parallel for
         for (int i = 0; i < size(); ++i) {
@@ -176,7 +176,15 @@ namespace cellworld{
             }
         }
     }
-
+#else
+    void Scenario::giveRewards() {
+        for (int i = 0; i < size(); ++i) {
+            if (getCreature(i).getState() == alive && rewards_[i] != 0.f) {
+                getCreature(i).addEnergy(rewards_[i]);
+            }
+        }
+    }
+#endif
 
     void saveWorld(const char* path, Scenario* current_field, const unsigned int& seed) {
         std::ofstream safe_file(path, std::ios::binary);

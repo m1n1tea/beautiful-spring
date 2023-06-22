@@ -2,7 +2,6 @@
 
 
 #include<UI/UI.h>
-using namespace cellworld;
 
 
 
@@ -46,7 +45,7 @@ int main()
     io.Fonts->AddFontDefault(&font_cfg);
     
     int width,height;
-    UI& user_inteface= UI::GetInstance();
+    cellworld::UI& user_inteface= cellworld::UI::GetInstance();
 
 
 

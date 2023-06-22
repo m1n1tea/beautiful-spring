@@ -13,7 +13,7 @@ set_property(TARGET cell_world PROPERTY CXX_STANDARD 20)
 
 if(NOT UNIX)
     if(MSVC)
-        set(SUBSYSTEM_LINKER_OPTIONS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup>")
+        set(SUBSYSTEM_LINKER_OPTIONS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
     else()
         set(SUBSYSTEM_LINKER_OPTIONS "-mwindows")
     endif()

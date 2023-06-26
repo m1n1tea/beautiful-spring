@@ -2,7 +2,7 @@
 
 namespace cellworld {
 
-    bool findFile(const char* path) {
+    bool findFile(std::string path) {
         std::ifstream safe_file(path, std::ios::binary);
         if (!safe_file) {
             safe_file.close();
@@ -15,11 +15,13 @@ namespace cellworld {
     }
 
 
-    FileSystem::FileSystem(std::string name) : store_names_file_(name) { 
+    FileSystem::FileSystem(std::string txt_name, std::string folder_name) : store_names_file_(txt_name), folder_name_(folder_name){
         store_names_file_ += ".txt";
+        std::filesystem::create_directory(folder_name_);
         loadFileNames();
     }
-    FileSystem::FileSystem() : store_names_file_("file_names.txt"){
+    FileSystem::FileSystem() : store_names_file_("file_names.txt"), folder_name_("worlds") {
+        std::filesystem::create_directory(folder_name_);
         loadFileNames();
     }
 
@@ -60,13 +62,16 @@ namespace cellworld {
     }
 
     void FileSystem::checkFileName(int index) {
-        const char* file = files_[index].c_str();
-        if (!findFile(file))
+        std::string path= folder_name_ + '/' + files_[index];
+        bool found= findFile(path);
+        //std::cout << path << " " << found << "\n";
+        if (!found) {
             files_.erase(files_.begin() + index);
+        }
     }
 
     bool FileSystem::findFileName(const char* file_name)
-    {
+    {   
         for (std::string existing:files_)
             if (file_name==existing)
                 return true;

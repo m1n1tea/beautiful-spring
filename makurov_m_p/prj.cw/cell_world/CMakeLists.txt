@@ -5,7 +5,7 @@
 # Add source to this project's executable.
 add_executable (cell_world "cell_world.cpp")
 
-target_link_libraries(cell_world PRIVATE UI )
+target_link_libraries(cell_world PRIVATE UI arial_rus)
 if(OpenMP_CXX_FOUND)
     target_link_libraries(cell_world PUBLIC OpenMP::OpenMP_CXX)
 endif()

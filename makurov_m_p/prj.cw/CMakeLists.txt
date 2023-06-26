@@ -1,7 +1,4 @@
-﻿
-
-
-find_package(imgui REQUIRED)
+﻿find_package(imgui REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(glad REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
@@ -35,8 +32,6 @@ endif()
 add_subdirectory ("include")
 add_subdirectory ("cell_world")
 
-#install(TARGETS cell_world RUNTIME)
-
 install(DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}/ DESTINATION bin FILES_MATCHING PATTERN "*test*" EXCLUDE PATTERN "*" )
 
-#install(DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}/ DESTINATION bin)
+

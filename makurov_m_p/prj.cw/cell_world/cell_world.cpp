@@ -1,8 +1,7 @@
 ﻿
 
-
 #include<UI/UI.h>
-
+#include<arial_rus/arial_rus.h>
 
 
 
@@ -40,8 +39,8 @@ int main()
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     ImFontConfig font_cfg;
-    font_cfg.SizePixels = 64.0f;
-    io.Fonts->AddFontDefault(&font_cfg);
+    font_cfg.FontDataOwnedByAtlas = false;
+    io.Fonts->AddFontFromMemoryTTF(ArialRus,sizeof(ArialRus),64.f, &font_cfg, io.Fonts->GetGlyphRangesCyrillic());
     
     int width,height;
     cellworld::UI& user_inteface= cellworld::UI::GetInstance();
@@ -56,7 +55,9 @@ int main()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         glfwGetWindowSize(window, &width, &height);
+        
 
+        
         user_inteface.updateWindowSize(width,height);
         user_inteface.loadScene();
 

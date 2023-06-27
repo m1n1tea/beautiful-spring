@@ -22,16 +22,29 @@ namespace cellworld{
     }
 
     void Scenario::newCycle() {
-        alive_count_ = initial_population_;
-        int random_creatures=initial_population_/8;
-        
+        survivors_.clear();
         for (int i = 0; i < size(); ++i) {
             if (getCreature(i).getState() == alive) {
-                survivors_.push_back(&getCreature(i));
+                survivors_.push_back(zoo_ptr_[i]);
             }
         }
-        std::swap(zoo_ptr_,empty_zoo_ptr_);
+        std::swap(zoo_ptr_, empty_zoo_ptr_);
+        if (survivors_.empty()) {
+            for (int i = 0; i < size_x_; ++i) {
+                for (int j = 0; j < size_y_; ++j) {
+                    empty_zoo_ptr_[i * size_y_ + j]->stopExisting();
+                    empty_zoo_ptr_[i * size_y_ + j]->pos_x_ = i;
+                    empty_zoo_ptr_[i * size_y_ + j]->pos_y_ = j;
+                }
+            }
+            spawnCreatures(initial_population_);
+            return;
+        }
+            
         std::shuffle(survivors_.begin(), survivors_.end(), generator_);
+        dead_count_ = 0;
+        alive_count_ = initial_population_;
+        int random_creatures=initial_population_/8;
 
         int even_part= (initial_population_-random_creatures)/survivors_.size();
         int random_part=(initial_population_-random_creatures) % survivors_.size();
@@ -49,12 +62,13 @@ namespace cellworld{
             getCreature(current).makeAlive(current);
         }
 
-        for (Creature*& ancestor : survivors_) {
-
+        for (Creature* ancestor : survivors_) {
+          
             for(int i=0;i<even_part;++i){
                 Position current = { positions_[spawned_creatures] / sizeY(), positions_[spawned_creatures] % sizeY() };
                 ++spawned_creatures;
                 getCreature(current).makeAlive(*ancestor,current);
+                getCreature(current).addEnergy(-getCreature(current).getEnergy()+ getCreature(current).getEnergyLimit() * Creature::coeff_[starting_energy]);
             }
             
         }
@@ -63,10 +77,15 @@ namespace cellworld{
             Position current = { positions_[spawned_creatures] / sizeY(), positions_[spawned_creatures] % sizeY() };
             ++spawned_creatures;
             getCreature(current).makeAlive(*survivors_[i], current);
+            getCreature(current).addEnergy(-getCreature(current).getEnergy() + getCreature(current).getEnergyLimit() * Creature::coeff_[starting_energy]);
         }
-        survivors_.clear();
-        for (int i = 0; i < size(); ++i) {
-            empty_zoo_ptr_[i]->stopExisting();
+
+        for (int i = 0; i < size_x_; ++i) {
+            for (int j = 0; j < size_y_; ++j) {
+                empty_zoo_ptr_[i * size_y_ + j]->stopExisting();
+                empty_zoo_ptr_[i * size_y_ + j]->pos_x_ = i;
+                empty_zoo_ptr_[i * size_y_ + j]->pos_y_ = j;
+            }
         }
     }
 
@@ -166,6 +185,22 @@ namespace cellworld{
         ImGui::SameLine(0.01f);
         ImGui::Image(texture, { sizeX() * square_size * 1.f, sizeY() * square_size * 1.f });
     }
+    
+
+
+    //std::pair<int,float> Scenario::getState(ImVec2 begin, int square_size) {
+    //    ImVec2 mouse_pos= ImGui::GetIO().MousePos;
+    //    mouse_pos.x -= 8;
+    //    mouse_pos.y -= 8;
+    //    Position pos= convertInput(begin, mouse_pos,square_size);
+    //    if (validX(pos.first) && validY(pos.second)) {
+    //        return {getCreature(pos).getState(),getCreature(pos).getEnergy()};
+    //    }
+    //    else {
+    //        return { -1 ,-1} ;
+    //    }
+    //    
+    //}
 
 #if OPEN_MP_FOUND == 1
     void Scenario::giveRewards() {

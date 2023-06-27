@@ -184,6 +184,7 @@ void conjoin( Creature*& champion, Creature*& candidate) {
     if (candidate->getState() == alive && (champion->getState() == dead || (champion->getMass() * champion->getSpeed() < candidate->getMass() * candidate->getSpeed()))) {
         std::swap(champion, candidate);
     }
+    candidate->die();
     champion->eat(*candidate);
 }
 
@@ -258,7 +259,7 @@ void Creature::think(){
 }
 
 void Creature::act(){
-    if (state_==alive){
+    if (state_==alive && energy_>=0){
         speed_direction_=0;
         if (output_neurons_.coeff(vertical_or_horizontal) > 0) {// <=0 вертикально, >0 горизонтально
             speed_direction_+=2;
@@ -298,11 +299,14 @@ void Creature::act(){
 }
 //Плохо работает в многопотоке
 void Creature::makeAlive(Creature& ancestor,const Position& pos) {
+    if (state_==not_exist)
+        energy_=0;
+    output_neurons_.coeffRef(reproduce) = 0;
     state_=alive;
     pos_x_=pos.first;
     pos_y_=pos.second;
     Genome& kids_genome=creatures_genome_;
-    Genome& ancestors_genome= ancestor.creatures_genome_;
+    const Genome& ancestors_genome= ancestor.creatures_genome_;
     if (coeff_[mutation_strength] > 0 && coeff_[mutation_strength] < 1) {
         generateGenome(kids_genome);
         unsigned int kids_red = ((ancestors_genome.color >> 24) & 0xff);
@@ -312,8 +316,8 @@ void Creature::makeAlive(Creature& ancestor,const Position& pos) {
         kids_red = mixGen(kids_red, mutation_red);
         kids_green = mixGen(kids_green, mutation_green);
         kids_red &= 0xff;
-        
         kids_green &= 0xff;
+
         kids_genome.color = (kids_red << 24) | (kids_green << 16);
         kids_genome.color |= 0x0000ffff;
         kids_genome.mass = mixGen(kids_genome.mass, ancestors_genome.mass);
@@ -331,7 +335,7 @@ void Creature::makeAlive(Creature& ancestor,const Position& pos) {
     ancestor.energy_ /= 2.0f;
     energy_+= ancestor.energy_;
     energy_limit_ = kids_genome.mass * coeff_[mass_capacity];
-    output_neurons_.coeffRef(reproduce) = 0;
+    
 }
 
 void Creature::makeAlive(const Position& pos) {
@@ -342,7 +346,6 @@ void Creature::makeAlive(const Position& pos) {
     generateGenome(kids_genome);
     energy_limit_ = kids_genome.mass * coeff_[mass_capacity];
     energy_=energy_limit_*coeff_[starting_energy];
-    input_neurons_ = Eigen::MatrixXf::Zero((4 * look_input_count + input_neurons_count), 1);
 }
 
 float Creature::Leftover() {
@@ -536,7 +539,6 @@ void Field::updatePositions(){
             continue;
 
         zoo_ptr_[i]->act();
-
         if (!validX(zoo_ptr_[i]->pos_x_)) {
             zoo_ptr_[i]->pos_x_ %=size_x_;
             if (zoo_ptr_[i]->pos_x_ <0)
@@ -656,8 +658,7 @@ void Field::updatePositions() {
 #endif
 
 void Field::updateStates(){
-    alive_count_ = 0;
-    dead_count_ = 0;
+
     //#pragma omp parallel for ordered
     for (int i = 0; i < size_; ++i) {
 
@@ -685,7 +686,8 @@ void Field::updateStates(){
         }
         
     }
-
+    alive_count_ = 0;
+    dead_count_ = 0;
     //#pragma omp parallel for
     for (int i = 0; i < size_; ++i) {
         if (zoo_ptr_[i]->getState() == dead) {
@@ -697,6 +699,7 @@ void Field::updateStates(){
             //#pragma omp atomic
             ++alive_count_;
         }
+        
     }
 
 }

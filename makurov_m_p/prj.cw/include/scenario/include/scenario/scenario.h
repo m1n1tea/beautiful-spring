@@ -85,9 +85,12 @@ namespace cellworld {
         ///Синхронизирует графическое представление наград с текущим состоянием наград
         void updateRewardsTexture();
         /**@}*/
-
+        
         ///Длина цикла, находится в public, поскольку нужен доступ как для чтения так и для записи.
         int cycle_len_;
+
+        //std::pair<int, float> getState(ImVec2 begin, int square_size);
+
     private:
 
         ///brief Переводит координату пикселя экрана в логическую позицию

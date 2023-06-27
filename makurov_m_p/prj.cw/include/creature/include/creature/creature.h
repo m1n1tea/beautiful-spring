@@ -23,8 +23,6 @@
 
 
 
-
-
 namespace cellworld
 {
     /*!
@@ -234,7 +232,7 @@ constexpr Position bad_position={-1,-1};
     - веса нейросети существа
 */
 struct Genome {
-    Genome() :color(),mass(),neuron_network() {}
+    Genome() :color(0),mass(0),neuron_network(NeuronNetwork::Zero()) {}
     explicit Genome(unsigned int in_color):color(in_color),mass(),neuron_network() {}
     unsigned int color;
     unsigned int mass;
@@ -647,6 +645,7 @@ protected:
 
     ///Количество мёртвых существ в мире
     int dead_count_;
+
 
     
 };

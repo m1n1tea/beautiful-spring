@@ -33,5 +33,6 @@ add_subdirectory ("include")
 add_subdirectory ("cell_world")
 
 install(DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}/ DESTINATION bin FILES_MATCHING PATTERN "*test*" EXCLUDE PATTERN "*" )
-
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/additional_worlds/ DESTINATION bin)
+	
 

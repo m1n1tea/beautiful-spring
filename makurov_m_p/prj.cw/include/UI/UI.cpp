@@ -118,7 +118,7 @@ namespace cellworld{
         ImGui::Unindent(width_ * 0.35f);
         ImGui::NewLine();
         ImGui::Indent(width_ * 0.15f);
-        ImGui::Checkbox("Разсножение", &Creature::is_breedable);
+        ImGui::Checkbox("Размножение", &Creature::is_breedable);
         ImGui::InputScalar("Сид", ImGuiDataType_U32, &seed_);  HelpMarker("если сид_=0,программа генерирует случайный сид", width_);
         ImGui::InputScalar("Ширина", ImGuiDataType_U32, &size_x);
 
@@ -340,6 +340,24 @@ namespace cellworld{
                 ImGui::SameLine(8.f);//не понимаю почему 8
                 ImGui::Image((void*)(rewards_texture_), { scenario_.sizeX() * square_size * 1.f,  scenario_.sizeY() * square_size * 1.f });
             }
+            /*if (ImGui::IsMouseDown(1)) {
+                std::pair<int,float> creature_info=scenario_.getState({ width_ * 0.01f,height_ * 0.1f }, square_size);
+                if (creature_info.first != -1) {
+                    std::string string_out;
+                    if (creature_info.first ==0)
+                        string_out ="пусто:\n%f";
+                    if (creature_info.first == 1)
+                        string_out = "мёртвое:\n%f";
+                    if (creature_info.first == 2)
+                        string_out = "живое:\n%f";
+                    ImGui::BeginTooltip();
+                    ImGui::SetWindowFontScale(width_ / 4096.0f);
+                    ImGui::PushTextWrapPos(ImGui::GetFontSize() * 7);
+                    ImGui::Text(string_out.c_str(), creature_info.second);
+                    ImGui::PopTextWrapPos();
+                    ImGui::EndTooltip();
+                }
+            }*/
             ImGui::End();
         }
         if (options_window){

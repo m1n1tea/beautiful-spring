@@ -30,8 +30,8 @@ namespace cellworld {
     }
 
     void FileSystem::removeFileName(int index) {
-        const char* file = files_[index].c_str();
-        std::remove(file);
+        std::string path = folder_name_ + '/' + files_[index];
+        std::remove(path.c_str());
         files_.erase(files_.begin()+index);
     }
 
